@@ -32,6 +32,7 @@ APlatformCharacter::APlatformCharacter() {
 	if (UCharacterMovementComponent* CharacterMovementComponent = GetCharacterMovement()) {
 		CharacterMovementComponent->bConstrainToPlane = true;
 		CharacterMovementComponent->bSnapToPlaneAtStart = true;
+		CharacterMovementComponent->SetPlaneConstraintAxisSetting(EPlaneConstraintAxisSetting::Y);
 	}
 
 	const FString MoveInputPath = TEXT("/Game/Inputs/IA_Move.IA_Move");
@@ -54,11 +55,7 @@ APlatformCharacter::APlatformCharacter() {
 	if (ContextInputAsset.Succeeded()) {
 		DefaultContext = ContextInputAsset.Object;
 	}
-
-
-	const FRotator CameraRotationOffset = FRotator(0.f, 270.f, 0.f);
-	constexpr float SpringArmLength = 700.f;
-
+	
 	SpringArmComponent = CreateDefaultSubobject<USpringArm2DComponent>(TEXT("SPring Arm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
 
@@ -88,7 +85,7 @@ void APlatformCharacter::BeginPlay() {
 		TileMapActor = Cast<ATileMapActor>(FoundActors[0]);
 		TileMapComponent = TileMapActor->GetEnhancedTileMapComponent();
 
-		//UE_LOG(LogTemp, Warning, TEXT("%s"), *TileMapComponent->GetConvertedTileMapSize().ToString());
+		
 	}
 }
 
@@ -96,25 +93,6 @@ void APlatformCharacter::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 	Flip();
 
-	if (const UGameViewportClient* ViewportClient = GetWorld()->GetGameViewport()) {
-		FVector2d ViewportRect;
-		ViewportClient->GetViewportSize(ViewportRect);
-
-		FVector SpringArmLocation = GetActorLocation() + SpringArmComponent->GetRelativeLocation();
-		SpringArmLocation.Y = 0;
-
-
-
-		float OrthoHeight = CameraComponent->OrthoWidth / (ViewportRect.X / ViewportRect.Y);
-		float OrthoWidth = CameraComponent->OrthoWidth;
-
-	/*/	DrawDebugLine(GetWorld(), (SpringArmLocation - FVector(0, 0, OrthoHeight / 2-10)),
-		              (SpringArmLocation + FVector(0, 0, OrthoHeight / 2-10)), FColor(0, 0, 255),
-		              false, -1, 0, 2.0f);
-		/*DrawDebugLine(GetWorld(), (SpringArmLocation - FVector(OrthoWidth / 2, 0, 0)),
-		              (SpringArmLocation + FVector(OrthoWidth / 2-10, 0, 0)),
-		              FColor(255, 0, 0), false, -1, 0, 2.0f);*/
-	}
 }
 
 void APlatformCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
