@@ -16,6 +16,9 @@ class TOLEARNING_API UEnhancedTileMapComponent : public UPaperTileMapComponent
 
 	UPROPERTY()
 	FVector2D TileMapSize;
+	UPROPERTY()
+	FVector2D TileSize;
+	
 public:
 	bool SetTileMap(UPaperTileMap* NewTileMap) override;
 
@@ -27,4 +30,7 @@ public:
  */
 	UFUNCTION(BlueprintCallable)
 	FVector2D GetConvertedTileMapSize() const;
+
+	UFUNCTION(BlueprintCallable)
+	FVector2D GetConvertedTileSize() const;
 };

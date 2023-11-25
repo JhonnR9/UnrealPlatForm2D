@@ -12,7 +12,11 @@
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "TileMapActor.h"
+#include "Engine/GameViewportClient.h"
 
+
+
+struct FCameraLensSettings;
 
 APlatformCharacter::APlatformCharacter() {
 	if (UPaperFlipbookComponent* FlipbookComponent = GetSprite()) {
@@ -55,19 +59,15 @@ APlatformCharacter::APlatformCharacter() {
 	const FRotator CameraRotationOffset = FRotator(0.f, 270.f, 0.f);
 	constexpr float SpringArmLength = 700.f;
 
-	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("SPring Arm"));
+	SpringArmComponent = CreateDefaultSubobject<USpringArm2DComponent>(TEXT("SPring Arm"));
 	SpringArmComponent->SetupAttachment(RootComponent);
-	SpringArmComponent->SetRelativeRotation(CameraRotationOffset);
-	SpringArmComponent->TargetArmLength = SpringArmLength;
 
-	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
+	CameraComponent = CreateDefaultSubobject<UCamera2DComponent>(TEXT("Camera"));
 	CameraComponent->SetupAttachment(SpringArmComponent);
 	
-
 	if (UCapsuleComponent* Capsule = GetCapsuleComponent()) {
 		Capsule->SetCapsuleSize(30.f, 45.f);
 	}
-	
 }
 
 void APlatformCharacter::BeginPlay() {
@@ -85,27 +85,36 @@ void APlatformCharacter::BeginPlay() {
 	TArray<AActor*> FoundActors;
 	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATileMapActor::StaticClass(), FoundActors);
 	if (FoundActors.Num() > 0) {
-		TileMapActor = Cast<ATileMapActor>( FoundActors[0]);
+		TileMapActor = Cast<ATileMapActor>(FoundActors[0]);
 		TileMapComponent = TileMapActor->GetEnhancedTileMapComponent();
-		
-		UE_LOG(LogTemp, Warning, TEXT("%s"), *TileMapComponent->GetConvertedTileMapSize().ToString());
 
+		//UE_LOG(LogTemp, Warning, TEXT("%s"), *TileMapComponent->GetConvertedTileMapSize().ToString());
 	}
-	
 }
 
 void APlatformCharacter::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 	Flip();
 
-	FVector CameraLocation = CameraComponent->GetComponentLocation();
-	FVector CameraMin = TileMapActor->GetActorLocation();
-	FVector2d TileMapSize = TileMapComponent->GetConvertedTileMapSize();
-	FVector CameraMax = FVector(TileMapSize.X +  CameraMin.X, CameraLocation.Y, TileMapSize.Y + CameraMin.Z);
+	if (const UGameViewportClient* ViewportClient = GetWorld()->GetGameViewport()) {
+		FVector2d ViewportRect;
+		ViewportClient->GetViewportSize(ViewportRect);
 
-	FVector NewCameraLocation = FMath::Clamp(CameraLocation,CameraMin, CameraMax);
-	CameraComponent->SetWorldLocation(NewCameraLocation);
+		FVector SpringArmLocation = GetActorLocation() + SpringArmComponent->GetRelativeLocation();
+		SpringArmLocation.Y = 0;
 
+
+
+		float OrthoHeight = CameraComponent->OrthoWidth / (ViewportRect.X / ViewportRect.Y);
+		float OrthoWidth = CameraComponent->OrthoWidth;
+
+	/*/	DrawDebugLine(GetWorld(), (SpringArmLocation - FVector(0, 0, OrthoHeight / 2-10)),
+		              (SpringArmLocation + FVector(0, 0, OrthoHeight / 2-10)), FColor(0, 0, 255),
+		              false, -1, 0, 2.0f);
+		/*DrawDebugLine(GetWorld(), (SpringArmLocation - FVector(OrthoWidth / 2, 0, 0)),
+		              (SpringArmLocation + FVector(OrthoWidth / 2-10, 0, 0)),
+		              FColor(255, 0, 0), false, -1, 0, 2.0f);*/
+	}
 }
 
 void APlatformCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {

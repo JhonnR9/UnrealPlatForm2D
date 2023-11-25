@@ -8,9 +8,9 @@
 #include "EnhancedInputSubsystemInterface.h"
 #include "InputActionValue.h"
 #include "TileMapActor.h"
-#include "Camera/CameraComponent.h"
-#include "GameFramework/SpringArmComponent.h"
 #include "../Components/EnhancedTileMapComponent.h"
+#include "ToLearning/Components/Camera2DComponent.h"
+#include "ToLearning/Components/SpringArm2DComponent.h"
 
 #include "PlatformCharacter.generated.h"
 
@@ -35,14 +35,7 @@ class TOLEARNING_API APlatformCharacter : public APaperCharacter
 	/* Inputs Events */
 	void Move(const FInputActionValue& Value);
 
-	// Components
-	UPROPERTY(VisibleAnywhere)
-	USpringArmComponent* SpringArmComponent;
-	UPROPERTY(EditAnywhere)
-	UCameraComponent* CameraComponent;
 
-	UPROPERTY(VisibleAnywhere)
-	UEnhancedTileMapComponent* TileMapComponent;
 
 	UPROPERTY(VisibleAnywhere)
 	ATileMapActor* TileMapActor;
@@ -50,6 +43,15 @@ class TOLEARNING_API APlatformCharacter : public APaperCharacter
 	void Flip();
 	
 protected:
+	// Components
+	UPROPERTY(VisibleAnywhere)
+	USpringArm2DComponent* SpringArmComponent;
+	
+	UPROPERTY(EditAnywhere)
+	UCamera2DComponent* CameraComponent;
+
+	UPROPERTY(VisibleAnywhere)
+	UEnhancedTileMapComponent* TileMapComponent;
 
 public:
 	APlatformCharacter();

@@ -3,7 +3,10 @@
 
 #include "Platform2DGameMode.h"
 #include "Actors/PlatformCharacter.h"
+#include "UObject/ConstructorHelpers.h"
 
 APlatform2DGameMode::APlatform2DGameMode() {
-	DefaultPawnClass = APlatformCharacter::StaticClass();
+
+	static ConstructorHelpers::FClassFinder<APawn> BP_PlatformCharacter(TEXT("/Game/Bluprints/BP_PlatformCharacter"));
+	DefaultPawnClass = BP_PlatformCharacter.Class;
 }
