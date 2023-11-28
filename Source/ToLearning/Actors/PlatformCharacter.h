@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Create by Davidson
 
 #pragma once
 
@@ -7,10 +7,10 @@
 #include "InputAction.h"
 #include "EnhancedInputSubsystemInterface.h"
 #include "InputActionValue.h"
+#include "PaperFlipbook.h"
 #include "TileMapActor.h"
-#include "../Components/EnhancedTileMapComponent.h"
+#include "ToLearning/ModesAndEvents/EventManager.h"
 #include "ToLearning/Components/Camera2DComponent.h"
-#include "ToLearning/Components/SpringArm2DComponent.h"
 
 #include "PlatformCharacter.generated.h"
 
@@ -28,6 +28,9 @@ class TOLEARNING_API APlatformCharacter : public APaperCharacter
 
 	UPROPERTY(VisibleAnywhere, Category="Inputs")
 	UInputAction* JumpInputAction;
+	
+	UPROPERTY(EditAnywhere, Category="Inputs")
+	UInputAction* AttackInputAction;
 
 	UPROPERTY(VisibleAnywhere, Category="Inputs")
 	UInputMappingContext* DefaultContext;
@@ -35,23 +38,24 @@ class TOLEARNING_API APlatformCharacter : public APaperCharacter
 	/* Inputs Events */
 	void Move(const FInputActionValue& Value);
 
-
+	UEventManager* EventManager;
+	UFUNCTION()
+	void Attack();
 
 	UPROPERTY(VisibleAnywhere)
 	ATileMapActor* TileMapActor;
 	
 	void Flip();
+	void ChangeAnimations();
+	void SetAnimation(FString AninName, bool Looping = true);
 	
 protected:
 	// Components
-	UPROPERTY(VisibleAnywhere)
-	USpringArm2DComponent* SpringArmComponent;
-	
 	UPROPERTY(EditAnywhere)
 	UCamera2DComponent* CameraComponent;
 
-	UPROPERTY(VisibleAnywhere)
-	UEnhancedTileMapComponent* TileMapComponent;
+	UPROPERTY(EditAnywhere)
+	TMap<FString, UPaperFlipbook*> MapAnimations;
 
 public:
 	APlatformCharacter();

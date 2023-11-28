@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Create by Davidson
 
 
 #include "PlatformCharacter.h"
@@ -11,9 +11,8 @@
 #include "InputMappingContext.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "Kismet/GameplayStatics.h"
-#include "TileMapActor.h"
 #include "Engine/GameViewportClient.h"
-
+#include "ToLearning/ModesAndEvents/Platform2DGameMode.h"
 
 
 struct FCameraLensSettings;
@@ -48,6 +47,13 @@ APlatformCharacter::APlatformCharacter() {
 	if (JumpInputAsset.Succeeded()) {
 		JumpInputAction = JumpInputAsset.Object;
 	}
+	
+	const FString AttackInputPath = TEXT("/Game/Inputs/IA_Attack.IA_Attack");
+	const ConstructorHelpers::FObjectFinder<UInputAction> AttackInputAsset(*AttackInputPath);
+
+	if (AttackInputAsset.Succeeded()) {
+		AttackInputAction = JumpInputAsset.Object;
+	}
 
 	const FString ContextInputPath = TEXT("/Game/Inputs/IMC_Main.IMC_Main");
 	const ConstructorHelpers::FObjectFinder<UInputMappingContext> ContextInputAsset(*ContextInputPath);
@@ -55,15 +61,24 @@ APlatformCharacter::APlatformCharacter() {
 	if (ContextInputAsset.Succeeded()) {
 		DefaultContext = ContextInputAsset.Object;
 	}
-	
-	SpringArmComponent = CreateDefaultSubobject<USpringArm2DComponent>(TEXT("SPring Arm"));
-	SpringArmComponent->SetupAttachment(RootComponent);
 
 	CameraComponent = CreateDefaultSubobject<UCamera2DComponent>(TEXT("Camera"));
-	CameraComponent->SetupAttachment(SpringArmComponent);
-	
+	CameraComponent->SetupAttachment(RootComponent);
+	CameraComponent->SetRelativeRotation(FRotator(0, 270, 0));
+	CameraComponent->SetRelativeLocation(FVector(0, 150, 0));
+	CameraComponent->SetProjectionMode(ECameraProjectionMode::Orthographic);
+	CameraComponent->SetOrthoWidth(1530);
+
 	if (UCapsuleComponent* Capsule = GetCapsuleComponent()) {
-		Capsule->SetCapsuleSize(30.f, 45.f);
+		Capsule->SetCapsuleSize(30, 45);
+	}
+
+	if (GetWorld()) {
+		if (AGameModeBase* GameMode = UGameplayStatics::GetGameMode(GetWorld())) {
+			if (APlatform2DGameMode* Platform2DGameMode = Cast<APlatform2DGameMode>(GameMode)) {
+				EventManager = Platform2DGameMode->GetEventManager();
+			}
+		}
 	}
 }
 
@@ -78,21 +93,19 @@ void APlatformCharacter::BeginPlay() {
 			}
 		}
 	}
-
-	TArray<AActor*> FoundActors;
-	UGameplayStatics::GetAllActorsOfClass(GetWorld(), ATileMapActor::StaticClass(), FoundActors);
-	if (FoundActors.Num() > 0) {
-		TileMapActor = Cast<ATileMapActor>(FoundActors[0]);
-		TileMapComponent = TileMapActor->GetEnhancedTileMapComponent();
-
-		
-	}
 }
 
 void APlatformCharacter::Tick(float DeltaSeconds) {
 	Super::Tick(DeltaSeconds);
 	Flip();
+	ChangeAnimations();
 
+	if (!GetCharacterMovement()->GetLastUpdateVelocity().IsNearlyZero()) {
+		if (EventManager) {
+			const FVector Position = GetActorLocation();
+			EventManager->GetOnChangePlayerPosition()->Broadcast(FVector2D(Position.X, Position.Z));
+		}
+	}
 }
 
 void APlatformCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) {
@@ -100,6 +113,7 @@ void APlatformCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputC
 	if (UEnhancedInputComponent* Input = Cast<UEnhancedInputComponent>(PlayerInputComponent)) {
 		Input->BindAction(MoveInputAction, ETriggerEvent::Triggered, this, &APlatformCharacter::Move);
 		Input->BindAction(JumpInputAction, ETriggerEvent::Triggered, this, &APlatformCharacter::Jump);
+		Input->BindAction(AttackInputAction, ETriggerEvent::Triggered, this, &APlatformCharacter::Attack);
 		Input->BindAction(JumpInputAction, ETriggerEvent::Canceled, this, &APlatformCharacter::StopJumping);
 	}
 }
@@ -122,3 +136,53 @@ void APlatformCharacter::Flip() {
 		}
 	}
 }
+
+void APlatformCharacter::SetAnimation(FString AninName, bool Looping) {
+	if (UPaperFlipbookComponent* FlipbookComponent = GetSprite()) {
+		// If the animation ends, be sure to enable the loop to continue the animations
+		if (!FlipbookComponent->IsPlaying()) {
+			FlipbookComponent->SetLooping(true);
+			FlipbookComponent->Play();
+			
+		}
+		// Make sure the animation will end if it is of the non-loop type
+		if (!FlipbookComponent->IsLooping()) {
+			return;
+		}
+		
+		if (UPaperFlipbook** Animation = MapAnimations.Find(AninName)) {
+			// Check if the current animation is already the desired animation, and return if true
+			if(FlipbookComponent->GetFlipbook()== *Animation) return;
+			// Set the FlipbookComponent to the new animation and configure looping
+			FlipbookComponent->SetFlipbook(*Animation);
+			FlipbookComponent->SetLooping(Looping);
+
+		}
+		else {
+			// Log a warning if the desired animation is not found in MapAnimations
+			UE_LOG(LogTemp, Warning, TEXT("Animation %s not found in MapAnimations Please add it in Blueprint or c++ class."), *AninName);
+		}
+	}
+}
+
+void APlatformCharacter::ChangeAnimations() {
+	if (const UCharacterMovementComponent* CharacterMovementComponent = GetCharacterMovement()) {
+		const FVector CurrentVelocity = CharacterMovementComponent->GetLastUpdateVelocity();
+
+		if (CharacterMovementComponent->IsFalling()) {
+			SetAnimation(TEXT("Jump"), false);
+		}
+		else if (!CurrentVelocity.IsNearlyZero()) {
+			SetAnimation(TEXT("Run"));
+		}
+		else {
+			
+			SetAnimation(TEXT("Idle"));
+		}
+	}
+}
+
+void APlatformCharacter::Attack() {
+	SetAnimation(TEXT("Attack"), false);
+}
+

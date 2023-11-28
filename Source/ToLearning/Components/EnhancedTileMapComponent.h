@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Create by Davidson
 
 #pragma once
 
@@ -13,24 +13,18 @@ UCLASS()
 class TOLEARNING_API UEnhancedTileMapComponent : public UPaperTileMapComponent
 {
 	GENERATED_BODY()
+	
+public:
+	UEnhancedTileMapComponent();
+	
+	virtual void BeginPlay() override;
+	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	virtual bool SetTileMap(UPaperTileMap* NewTileMap) override;
 
+private:
 	UPROPERTY()
 	FVector2D TileMapSize;
 	UPROPERTY()
 	FVector2D TileSize;
 	
-public:
-	bool SetTileMap(UPaperTileMap* NewTileMap) override;
-
-
-/**
- * Retrieves the dimensions of the TileMap converted to Unreal Units.
- *
- * @return The dimensions of the TileMap in Unreal Units (FVector2D).
- */
-	UFUNCTION(BlueprintCallable)
-	FVector2D GetConvertedTileMapSize() const;
-
-	UFUNCTION(BlueprintCallable)
-	FVector2D GetConvertedTileSize() const;
 };

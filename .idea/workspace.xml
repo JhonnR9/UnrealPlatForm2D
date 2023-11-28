@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" ENABLED="true" CONFIG_NAME="Debug" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="522f00ce-bcdc-4b25-a76c-c6b113d8b336" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEditor.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEditorPerProjectUserSettings.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEditorSettings.ini" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultEngine.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultEngine.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultGame.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultGame.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Config/DefaultInput.ini" beforeDir="false" afterPath="$PROJECT_DIR$/Config/DefaultInput.ini" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Assets/TileMaps/Level_01.uasset" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Assets/TileMaps/Level_01.uasset" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Bluprints/BP_PlatformCharacter.uasset" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Content/Maps/AnimationDemo.umap" beforeDir="false" afterPath="$PROJECT_DIR$/Content/Maps/AnimationDemo.umap" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Actors/PlatformCharacter.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Actors/PlatformCharacter.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Actors/PlatformCharacter.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Actors/PlatformCharacter.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Actors/TileMapActor.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Actors/TileMapActor.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Actors/TileMapActor.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Actors/TileMapActor.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Components/Camera2DComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Components/Camera2DComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Components/Camera2DComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Components/Camera2DComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Components/EnhancedTileMapComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Components/EnhancedTileMapComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Components/EnhancedTileMapComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Components/EnhancedTileMapComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Components/SpringArm2DComponent.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Components/SpringArm2DComponent.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Components/SpringArm2DComponent.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/Components/SpringArm2DComponent.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Platform2DGameMode.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/ModesAndEvents/Platform2DGameMode.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/Platform2DGameMode.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/ModesAndEvents/Platform2DGameMode.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/ToLearning.Build.cs" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/ToLearning.Build.cs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/ToLearning.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/ModesAndEvents/ToLearning.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Source/ToLearning/ToLearning.h" beforeDir="false" afterPath="$PROJECT_DIR$/Source/ToLearning/ModesAndEvents/ToLearning.h" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 5
+}</component>
+  <component name="ProjectId" id="2YfKI0SOa9ZId0TApLcXkRBVaMA" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "RunOnceActivity.readMode.enableVisualFormatting": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "git-widget-placeholder": "master",
+    "last_opened_file_path": "E:/Unreal Projects/UnrealGame",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="522f00ce-bcdc-4b25-a76c-c6b113d8b336" name="Changes" comment="" />
+      <created>1700911110755</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1700911110755</updated>
+      <workItem from="1700911112061" duration="7000" />
+      <workItem from="1700951568625" duration="3000" />
+      <workItem from="1700951910708" duration="30000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+</project>
